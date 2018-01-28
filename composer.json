@@ -1,0 +1,20 @@
+{
+    "name": "pTonev/PDOHelper",
+    "description": "PDO Helper packages.",
+    "keywords": ["database", "pdo"],
+    "authors": [
+        {
+            "name": "Petio Tonev",
+            "email": "ptonev@gmail.com"
+        }
+    ],
+    "type": "project",
+    "require": {
+		"php": ">=5.4"
+    },
+	"autoload": {
+        "psr-4": {
+            "pTonev\\PDOHelper\\": "src/"
+        }
+    }
+}

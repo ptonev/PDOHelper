@@ -1,0 +1,64 @@
+<?php
+
+namespace pTonev\database\PDO\Hobo;
+
+use \pTonev\database\PDO\PDOHelperInterface as BasePDOHelperInterface;
+use \pTonev\database\PDO\Query\PDOQueryHelperInterface;
+
+/**
+ * Interface PDOHelperInterface
+ *
+ * @package pTonev\database\PDO\Hobo
+ */
+interface PDOHelperInterface extends BasePDOHelperInterface
+{
+    /**
+     * Performs a SELECT query and returns the result as a PDOQueryHelper object
+     *
+     * @param string $sql               SQL statement or table name
+     * @param array  $params            Array with SQL parameters ['name' => 'value']
+     * @param array  $paramTypes        Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
+     *
+     * @return PDOQueryHelperInterface  Returns PDOQueryHelper object
+     */
+    public function select($sql, $params = [], $paramTypes = [], $whereConditions = '');
+
+    /**
+     * Performs an INSERT statement and returns the number of affected rows or a false on error
+     *
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
+     *
+     * @return mixed    Returns number of affected rows or false on error
+     */
+    public function insert($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = []);
+
+    /**
+     * Performs an UPDATE statement and returns the number of affected rows or a false on error
+     *
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
+     *
+     * @return mixed    Returns number of affected rows or false on error
+     */
+    public function update($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = []);
+
+    /**
+     * Performs an DELETE statement and returns the number of affected rows or a false on error
+     *
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
+     *
+     * @return mixed    Returns number of affected rows or false on error
+     */
+    public function delete($sql, $params = [], $paramTypes = [], $whereConditions = '');
+}
