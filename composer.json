@@ -1,20 +1,19 @@
 {
-    "name": "pTonev/PDOHelper",
-    "description": "PDO Helper packages.",
-    "keywords": ["database", "pdo"],
-    "authors": [
-        {
-            "name": "Petio Tonev",
-            "email": "ptonev@gmail.com"
-        }
-    ],
-    "type": "project",
-    "require": {
+	"name": "pTonev/PDOHelper",
+	"description": "PDO Helper classes",
+	"keywords": ["database", "pdo"],
+	"authors": [
+		{
+			"name": "Petio Tonev",
+			"email": "ptonev@gmail.com"
+		}
+	],
+	"require": {
 		"php": ">=5.4"
-    },
-    "autoload": {
-        "psr-0": {
-            "pTonev\\PDOHelper\\": "src/"
-        }
-    }
+	},
+	"autoload": {
+		"psr-4": {
+			"pTonev\\": "src/"
+		}
+	}
 }
