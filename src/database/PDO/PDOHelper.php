@@ -3,6 +3,7 @@
 namespace pTonev\database\PDO;
 
 use \PDO;
+use \PDOStatement;
 use \pTonev\database\PDO\Query\PDOQueryHelperInterface;
 use \pTonev\database\PDO\Query\PDOQueryHelper;
 use \pTonev\database\PDO\Query\PDOQueryHelperMock;
@@ -169,6 +170,32 @@ class PDOHelper implements PDOHelperInterface
     }
 
     /**
+     * Bind query parameters into PDOStatement
+     *
+     * @param PDOStatement $stmt    PDO Statement instance
+     * @param string $sql           SQL statement
+     * @param array $params         Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes     Array with PDO type on SQL parameters ['name' => PDO::]
+     */
+    protected function bindParameters(&$stmt, &$sql, &$params, &$paramTypes)
+    {
+        //	Loop by SQL statement parameters
+        foreach ($params as $paramName => $paramValue) {
+            //  Check if parameter exist in SQL
+            if (strpos($sql, ":$paramName") === false) {
+                //  Skip bind on this parameter
+                continue;
+            }
+
+            //  Get parameter type from paramTypes or from native PHP type of variable type
+            $paramType = (!empty($paramTypes[$paramName])) ? $paramTypes[$paramName] : $this->getPDOType($paramValue);
+
+            //	Bind parameter
+            $stmt->bindValue(":$paramName", $paramValue, $paramType);
+        }
+    }
+
+    /**
      * Performs a SELECT query and returns the result as a PDOQueryHelper object
      *
      * @param string $sql       SQL statement
@@ -194,20 +221,8 @@ class PDOHelper implements PDOHelperInterface
             return $stmt;
         }
 
-        //	Loop by SQL statement parameters
-        foreach ($params as $paramName => $paramValue) {
-            //  Check if parameter exist in SQL
-            if (strpos($sql, ":$paramName") === false) {
-                //  Skip bind on this parameter
-                continue;
-            }
-
-            //  Get parameter type from paramTypes or from native PHP type of variable type
-            $paramType = (!empty($paramTypes[$paramName])) ? $paramTypes[$paramName] : $this->getPDOType($paramValue);
-
-            //	Bind parameter
-            $stmt->bindValue(":$paramName", $paramValue, $paramType);
-        }
+        //  Bind query parameters
+        $this->bindParameters($stmt, $sql, $params, $paramTypes);
 
         //	Execute SQL statement
         if ($stmt->execute()) {
@@ -249,20 +264,8 @@ class PDOHelper implements PDOHelperInterface
             return false;
         }
 
-        //	Loop by SQL statement parameters
-        foreach ($params as $paramName => $paramValue) {
-            //  Check if parameter exist in SQL
-            if (strpos($sql, ":$paramName") === false) {
-                //  Skip bind on this parameter
-                continue;
-            }
-
-            //  Get parameter type from paramTypes or from native PHP type of variable type
-            $paramType = (!empty($paramTypes[$paramName])) ? $paramTypes[$paramName] : $this->getPDOType($paramValue);
-
-            //	Bind parameter
-            $stmt->bindValue(":$paramName", $paramValue, $paramType);
-        }
+        //  Bind query parameters
+        $this->bindParameters($stmt, $sql, $params, $paramTypes);
 
         //	Execute SQL statement
         if ($stmt->execute()) {
