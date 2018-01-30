@@ -242,13 +242,14 @@ class PDOHelper implements PDOHelperInterface
     }
 
     /**
-     * Performs an update query (INSERT, UPDATE and DELETE) and returns the number of affected rows or a false on error
+     * Performs an update query (INSERT, UPDATE and DELETE) and returns the number of affected rows,
+     * or a negative value on error
      *
      * @param string $sql        SQL statement
      * @param array  $params     Array with SQL parameters ['name' => 'value']
      * @param array  $paramTypes Array with type on SQL parameters ['name' => PDO::]
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     public function perform($sql, $params = [], $paramTypes = [])
     {
@@ -260,8 +261,8 @@ class PDOHelper implements PDOHelperInterface
             //  Store error information
             $this->setErrorInfo($this->db->errorInfo());
 
-            //  Returns false on errors
-            return false;
+            //  Returns negative value on error
+            return -1;
         }
 
         //  Bind query parameters
@@ -276,8 +277,8 @@ class PDOHelper implements PDOHelperInterface
             //  Store error information
             $this->setErrorInfo($stmt->errorInfo());
 
-            //  Returns false on errors
-            return false;
+            //  Returns negative value on error
+            return -1;
         }
     }
 }

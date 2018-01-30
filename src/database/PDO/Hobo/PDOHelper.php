@@ -32,7 +32,7 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
      * @param string $sql               SQL statement or table name
      * @param array  $params            Array with SQL parameters ['name' => 'value']
      * @param array  $paramTypes        Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple select)
      *
      * @return PDOQueryHelperInterface  Returns PDOQueryHelper object
      */
@@ -79,15 +79,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an INSERT statement and returns the number of affected rows or a false on error
+     * Performs an INSERT statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $sql        SQL statement
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
-     * @param array  $excludeParams   Array with SET exclude parameters ['id' , 'name']
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple insert)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     public function insert($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
@@ -106,15 +107,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an simple INSERT statement and returns the number of affected rows or a false on error
+     * Performs an INSERT statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $tableName       Table name
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
-     * @param array  $excludeParams   Array with SET exclude parameters ['id' , 'name']
+     * @param string $tableName         SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple insert)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     protected function insertSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
@@ -163,15 +165,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an UPDATE statement and returns the number of affected rows or a false on error
+     * Performs an UPDATE statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $sql             SQL statement or table name
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
-     * @param array  $excludeParams   Array with SET exclude parameters ['id' , 'name']
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple update)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     public function update($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
@@ -190,15 +193,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an simple UPDATE statement and returns the number of affected rows or a false on error
+     * Performs an UPDATE statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $tableName       Table name
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
-     * @param array  $excludeParams   Array with SET exclude parameters ['id' , 'name']
+     * @param string $tableName         SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple update)
+     * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     protected function updateSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
@@ -244,14 +248,15 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an DELETE statement and returns the number of affected rows or a false on error
+     * Performs an DELETE statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $sql             SQL statement or table name
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
+     * @param string $sql               SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     public function delete($sql, $params = [], $paramTypes = [], $whereConditions = '')
     {
@@ -270,14 +275,15 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
     }
 
     /**
-     * Performs an simple DELETE statement and returns the number of affected rows or a false on error
+     * Performs an DELETE statement and returns the number of affected rows,
+     * or a negative value on error
      *
-     * @param string $tableName       table name
-     * @param array  $params          Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes      Array with type on SQL parameters ['name' => PDO::]
-     * @param string $whereConditions Additional SQL WHERE conditions (only for simple delete)
+     * @param string $tableName         SQL statement or table name
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
+     * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
      *
-     * @return mixed    Returns number of affected rows or false on error
+     * @return int  Returns the number of affected rows or a negative value on error
      */
     protected function deleteSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '')
     {
