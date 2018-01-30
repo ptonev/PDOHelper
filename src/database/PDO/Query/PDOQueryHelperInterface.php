@@ -24,16 +24,16 @@ interface PDOQueryHelperInterface
     public function errorInfo();
 
     /**
-     * Get the number of columns in result set
+     * Get the number of columns in result set, 0 on error
      *
-     * @return int Returns the number of columns in the result set
+     * @return int Returns the number of columns in the result set, 0 on error
      */
     public function columns();
 
     /**
-     * Get the number of rows in result set
+     * Get the number of rows in result set, 0 on error
      *
-     * @return int Returns the number of rows in the result set
+     * @return int Returns the number of rows in the result set, 0 on error
      */
     public function rows();
 
