@@ -2,6 +2,7 @@
 
 namespace pTonev\database\PDO\Hobo;
 
+use \Exception;
 use \pTonev\database\PDO\PDOHelperInterface as BasePDOHelperInterface;
 use \pTonev\database\PDO\Query\PDOQueryHelperInterface;
 
@@ -35,6 +36,9 @@ interface PDOHelperInterface extends BasePDOHelperInterface
      * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
+     *
      */
     public function insert($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = []);
 
@@ -49,6 +53,8 @@ interface PDOHelperInterface extends BasePDOHelperInterface
      * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
      */
     public function update($sql, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = []);
 
@@ -62,6 +68,8 @@ interface PDOHelperInterface extends BasePDOHelperInterface
      * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
      */
     public function delete($sql, $params = [], $paramTypes = [], $whereConditions = '');
 }

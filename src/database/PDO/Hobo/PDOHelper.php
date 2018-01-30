@@ -2,6 +2,7 @@
 
 namespace pTonev\database\PDO\Hobo;
 
+use \Exception;
 use \pTonev\database\PDO\PDOHelper as BasePDOHelper;
 use \pTonev\database\PDO\Hobo\PDOHelperInterface as BasePDOHelperInterface;
 use \pTonev\database\PDO\Query\PDOQueryHelperInterface;
@@ -13,6 +14,18 @@ use \pTonev\database\PDO\Query\PDOQueryHelperInterface;
  */
 class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
 {
+    /** @var string Message at missing INSERT parameters */
+    const MSG_MISSING_INSERT_PARAMETERS = 'Missing INSERT parameters!';
+
+    /** @var string Message at missing UPDATE parameters */
+    const MSG_MISSING_UPDATE_PARAMETERS = 'Missing UPDATE parameters!';
+
+    /** @var string Message at missing DELETE parameters */
+    const MSG_MISSING_DELETE_PARAMETERS = 'Missing DELETE parameters!';
+
+    /** @var string Message explanation at missing parameters */
+    const MSG_MISSING_PARAMETERS = ' When you use method in short format need aways to present parameters.';
+
     /**
      * Is SQL statement
      *
@@ -117,10 +130,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
      * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
      */
     protected function insertSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
-        //  TODO Check for missing parameters and return error
+        //  Check for missing parameters
+        if (empty($params)) {
+            throw new Exception(PDOHelper::MSG_MISSING_INSERT_PARAMETERS . PDOHelper::MSG_MISSING_PARAMETERS);
+        }
+
         //  Clone params into setParams
         $insertParams = $params;
 
@@ -203,10 +222,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
      * @param array $excludeParams      Array with SET exclude parameters ['id' , 'name']
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
      */
     protected function updateSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '', $excludeParams = [])
     {
-        //  TODO Check for missing parameters and return error
+        //  Check for missing parameters
+        if (empty($params)) {
+            throw new Exception(PDOHelper::MSG_MISSING_INSERT_PARAMETERS . PDOHelper::MSG_MISSING_PARAMETERS);
+        }
+
         //  Clone params into setParams
         $setParams = $params;
 
@@ -284,10 +309,16 @@ class PDOHelper extends BasePDOHelper implements BasePDOHelperInterface
      * @param string $whereConditions   Additional SQL WHERE conditions (only for simple delete)
      *
      * @return int  Returns the number of affected rows or a negative value on error
+     *
+     * @throws Exception Throws exception when missing parameters
      */
     protected function deleteSimple($tableName, $params = [], $paramTypes = [], $whereConditions = '')
     {
-        //  TODO Check for missing parameters and return error
+        //  Check for missing parameters
+        if (empty($params)) {
+            throw new Exception(PDOHelper::MSG_MISSING_INSERT_PARAMETERS . PDOHelper::MSG_MISSING_PARAMETERS);
+        }
+
         //  Check for WHERE conditions
         if ($whereConditions == '') {
             //  Compose SQL mock-up
