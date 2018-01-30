@@ -245,9 +245,9 @@ class PDOHelper implements PDOHelperInterface
      * Performs an update query (INSERT, UPDATE and DELETE) and returns the number of affected rows,
      * or a negative value on error
      *
-     * @param string $sql        SQL statement
-     * @param array  $params     Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes Array with type on SQL parameters ['name' => PDO::]
+     * @param string $sql       SQL statement
+     * @param array $params     Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes Array with type on SQL parameters ['name' => PDO::]
      *
      * @return int  Returns the number of affected rows or a negative value on error
      */

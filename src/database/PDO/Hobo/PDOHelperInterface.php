@@ -16,8 +16,8 @@ interface PDOHelperInterface extends BasePDOHelperInterface
      * Performs a SELECT query and returns the result as a PDOQueryHelper object
      *
      * @param string $sql               SQL statement or table name
-     * @param array  $params            Array with SQL parameters ['name' => 'value']
-     * @param array  $paramTypes        Array with type on SQL parameters ['name' => PDO::]
+     * @param array $params             Array with SQL parameters ['name' => 'value']
+     * @param array $paramTypes         Array with type on SQL parameters ['name' => PDO::]
      * @param string $whereConditions   Additional SQL WHERE conditions (only for simple select)
      *
      * @return PDOQueryHelperInterface  Returns PDOQueryHelper object
