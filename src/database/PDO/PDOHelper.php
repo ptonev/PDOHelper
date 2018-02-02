@@ -11,7 +11,10 @@ use \pTonev\database\PDO\Query\PDOQueryHelperMock;
 /**
  * Class PDOHelper
  *
- * @package pTonev\database\PDO
+ * @author     Petio Tonev <ptonev@gmail.com>
+ * @copyright  2018 Petio Tonev
+ * @package    pTonev\database\PDO
+ * @link       https://github.com/ptonev/PDOHelper
  */
 class PDOHelper implements PDOHelperInterface
 {
@@ -25,8 +28,8 @@ class PDOHelper implements PDOHelperInterface
     protected $errorInfo = [];
 
     /**
-     *
      * PDO parameter types:
+     *
      *  PDO::PARAM_BOOL     Represents a boolean data type.
      *  PDO::PARAM_NULL     Represents the SQL NULL data type.
      *  PDO::PARAM_INT      Represents the SQL INTEGER data type.
@@ -34,9 +37,6 @@ class PDOHelper implements PDOHelperInterface
      *  PDO::PARAM_STR_NATL *** Flag to denote a string uses the national character set. Available since PHP 7.2.0
      *  PDO::PARAM_STR_CHAR *** Flag to denote a string uses the regular character set. Available since PHP 7.2.0
      *  PDO::PARAM_LOB      *** Represents the SQL large object data type.
-     *
-     *  *** Don't use yet.
-     *
      */
 
     /**
@@ -76,9 +76,11 @@ class PDOHelper implements PDOHelperInterface
         //  Create PDO instance
         $this->db = new PDO($dsn, $user, $password);
 
-        //  TODO Need to see what and how will maintains attributes
-        //  (dev) ERRMODE_EXCEPTION | (live) ERRMODE_SILENT
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        //  Set ATTR_ERRMODE to ERRMODE_SILENT
+        $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
+        //  Set ATTR_DEFAULT_FETCH_MODE to FETCH_ASSOC
+        $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
     /**
@@ -104,6 +106,49 @@ class PDOHelper implements PDOHelperInterface
 
         //  Returns exist instance
         return self::$instances[$connectionSettings];
+    }
+
+    /**
+     * Set an PDO attribute
+     *
+     * @param int $attribute    PDO attribute
+     * @param mixed $value      PDO attribute value
+     *
+     * Supported attributes and values:
+     *
+     *  - PDO::ATTR_ERRMODE: Error reporting (default: ERRMODE_SILENT).
+     *      PDO::ERRMODE_SILENT: Just set error codes.
+     *      PDO::ERRMODE_WARNING: Raise E_WARNING.
+     *      PDO::ERRMODE_EXCEPTION: Throw exceptions.
+     *
+     *  - PDO::ATTR_TIMEOUT: Specifies the timeout duration in seconds.
+     *
+     *  - PDO::ATTR_AUTOCOMMIT: Whether to autocommit every single statement.
+     *      (available in OCI, Firebird and MySQL).
+     *
+     *  - PDO::MYSQL_ATTR_USE_BUFFERED_QUERY: Use buffered queries.
+     *      (available in MySQL)
+     *
+     *  - PDO::ATTR_DEFAULT_FETCH_MODE: Set default fetch mode.
+     *      PDO::FETCH_ASSOC: Returns an array indexed by column name as returned in your result set.
+     *
+     *      PDO::FETCH_NUM: Returns an array indexed by column number as returned in your result set.
+     *
+     *      PDO::FETCH_BOTH (default): Returns an array indexed by both column name and 0-indexed
+     *          column number as returned in your result set.
+     *
+     *      PDO::FETCH_NAMED: Returns an array with the same form as PDO::FETCH_ASSOC, except that
+     *          if there are multiple columns with the same name, the value referred to by that key
+     *          will be an array of all the values in the row that had that column name.
+     *
+     *      PDO::FETCH_KEY_PAIR: Fetch a two-column result into an array where the first column
+     *          is a key and the second column is the value.
+     *
+     * @return bool Returns TRUE on success or FALSE on failure.
+     */
+    public function setAttribute($attribute, $value)
+    {
+        return $this->db->setAttribute($attribute, $value);
     }
 
     /**
@@ -215,7 +260,7 @@ class PDOHelper implements PDOHelperInterface
             $this->setErrorInfo($this->db->errorInfo());
 
             //  Create Error mock-up on PDO Statement
-            $stmt = new PDOQueryHelperMock(null);
+            $stmt = new PDOQueryHelperMock(null, null);
 
             //  Returns error mock-up on PDO Statement
             return $stmt;
@@ -226,15 +271,18 @@ class PDOHelper implements PDOHelperInterface
 
         //	Execute SQL statement
         if ($stmt->execute()) {
+            //  Get fetch style
+            $fetchStyle = $this->db->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE);
+
             //  Returns number of affected rows
-            return new PDOQueryHelper($stmt);
+            return new PDOQueryHelper($stmt, $fetchStyle);
         }
         else {
             //  Store error information
             $this->setErrorInfo($stmt->errorInfo());
 
             //  Create Error mock-up on PDO Statement
-            $stmt = new PDOQueryHelperMock(null);
+            $stmt = new PDOQueryHelperMock(null, null);
 
             //  Returns error mock-up on PDO Statement
             return $stmt;
